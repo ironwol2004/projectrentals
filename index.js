@@ -70,7 +70,7 @@ app.post("/",(req,res)=>{
     var tenant=req.body.user==="Tenant"?"1":"";
     if(tenant==="1"){
         Tenant.findOne({email:req.body.email}).then((t)=>{if(t && t.pass===req.body.pass){
-            res.render("home",{tenant:tenant,user:t});
+            res.render("thome",{user:t});
         }
         else if(t){
             res.redirect("/");
@@ -87,7 +87,7 @@ app.post("/",(req,res)=>{
     else{
         Landowner.findOne({email:req.body.email}).then((l)=>{
             if(l && l.pass===req.body.pass){
-                res.render("home",{tenant:tenant,user:l});
+                res.render("lhome",{user:l});
             }
             else if(l){
                 res.redirect("/");
@@ -116,7 +116,7 @@ app.post("/wantroomform",(req,res)=>{
     gotroom:false
     });
     temp.save();
-    res.render("home",{tenant:req.body.tenant,user:temp});
+    res.render("thome",{user:temp});
 });
 app.post("/rentroomform",(req,res)=>{
     const temp=new Landowner({
@@ -129,7 +129,7 @@ app.post("/rentroomform",(req,res)=>{
     roomfull:false
     });
     temp.save();
-    res.render("home",{tenant:req.body.tenant,user:temp});
+    res.render("lhome",{user:temp});
 });
 app.listen(3000,()=>{
     console.log("server started");
