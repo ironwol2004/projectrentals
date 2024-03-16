@@ -10,24 +10,20 @@ const tenantsSchema=new mongoose.Schema({
     name:String,
     members:Number,
     roomsreq:Number,
-    durationdays:Number,
-    parkingreq:Boolean,
-    drinkorsmoke:Boolean,
-    id:String,
+    duration:Number,
+    email:String,
     pass:String,
-    constact:Number,
-    requesstsent:[String],
+    contact:Number,
+    requestsent:[String],
     gotroom:Boolean
 });
 const landownersSchema=new mongoose.Schema({
     name:String,
     address:String,
     roomsavail:Number,
-    parkingavail:Boolean,
-    id:String,
+    email:String,
     pass:String,
-    drinkersorsmokerspermitted:Boolean,
-    requestsrecieved:[String],
+    requestrecieved:[String],
     roomempty:Boolean
 });
 const Tenant= mongoose.model("Tenant",tenantsSchema);
@@ -63,6 +59,73 @@ app.get("/tenantdetails",(req,res)=>{
 });
 app.get("/tenantdashboard",(req,res)=>{
     res.render("tenantsdashboard");
+});
+app.post("/",(req,res)=>{
+    var tenant=req.body.user==="Tenant"?"1":"";
+    if(tenant==="1"){
+        Tenant.find({email:req.body.email}).then((t)=>{
+            console.log(t);
+            if(t.length>0 && t[0].pass===req.body.pass){
+                res.redirect("/home",{tenant:tenant,user:t[0]});
+            }
+            else if(t.length>0){
+                res.redirect("/");
+            }
+            else{
+                const temp={
+                    email:req.body.email,
+                    pass:req.body.pass
+                };
+                res.redirect("/wantroomform",{tenant:tenant,user:temp});
+            }
+        }
+)}
+    else{
+        Landowner.find({email:req.body.email}).then((l)=>{
+            if(l.length>0 && l[0].pass===req.body.pass){
+                res.redirect("/home",{tenant:tenant,user:l[0]});
+            }
+            else if(l.length>0){
+                res.redirect("/");
+            }
+            else{
+                const temp={
+                    email:req.body.email,
+                    pass:req.body.pass
+                };
+                res.redirect("/rentroomform",{tenant:tenant,user:temp});
+            }
+        
+        });
+       }
+});
+app.post("/wantroomform",(req,res)=>{
+    const temp=new Tenant({
+    name:req.body.name,
+    members:req.body.members,
+    roomsreq:req.body.rooms,
+    duration:req.body.duration,
+    email:req.body.email,
+    pass:req.body.pass,
+    contact:req.body.contact,
+    requestsent:[],
+    gotroom:false
+    });
+    temp.save();
+    res.redirect("/home",{tenant:req.body.tenant,user:temp});
+});
+app.post("/rentroomform",(req,res)=>{
+    const temp=new Landowner({
+        name:req.body.name,
+    address:req.body.address,
+    roomsavail:req.body.rooms,
+    email:req.body.email,
+    pass:req.body.pass,
+    requestrecieved:[],
+    roomfull:false
+    });
+    temp.save();
+    res.redirect("/home",{tenant:req.body.tenant,user:temp});
 });
 app.listen(3000,()=>{
     console.log("server started");

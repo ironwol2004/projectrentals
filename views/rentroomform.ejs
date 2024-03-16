@@ -1,4 +1,17 @@
 
 <%-include("headerfooter/header")%>
-<h1>form for landowners renting room with details of location and preferences</h1>
+<h1>Please fill the following details:</h1>
+<form target="post" action="/rentroomform">
+    <input type="hidden" name="email" value="<%=user.email%>">
+    <input type="hidden" name="pass" value="<%=user.pass%>">
+    <input type="hidden" name="tenant" value="<%=tenant%>">
+    <label>Name:</label>
+    <input type="text" name="name" required>
+    <label>Address:</label>
+    <input type="text" name="address" required>
+    <label>No. of rooms available</label>
+    <input type="number" name="rooms" required>
+    <button type="submit">Submit</button>
+    <button type="reset">Reset</button></form>
+</form>
 <%-include("headerfooter/footer")%>

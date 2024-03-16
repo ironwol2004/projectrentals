@@ -1,4 +1,26 @@
 
-
-<h1>basic sign in form using email id password and one more drop down option weather signing in as tenant or land Owner</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="h-80 py-10 flex justify-center">
+<h1>Sign in/Sign up</h1>
+<form class="flex-col justify-center" action="/" target="post">
+    <label>Email:</label>
+    <input type="email" name="email" required>
+    <label>Password:</label>
+    <input type="text" name="pass" required>
+    <select name="user" class="w-1/8"  required>
+        <option value="Tenant" >Tenant</option>
+        <option value="LandOwner" >LandOwner</option>
+    </select>
+    <button type="submit">Submit</button>
+    <button type="reset">Reset</button>
+</form></div>
 <%-include("headerfooter/footer")%>

@@ -11,10 +11,11 @@
 <nav class="flex justify-between px-5 py-6 align-middle bg-yellow-300">
     <h2 class="font-extrabold text-3xl text-red-900">ProjectRentals</h2>
 <ul class="flex space-x-5 px-5">
+<%var b=tenant==="1"?true:false;%>
 <li><a class="hover:text-black text-red-900 visited:text-red-900 text-lg font-bold" href="/home">Home</a></li>
-<li><a class="hover:text-black text-red-900 visited:text-red-900 text-lg font-bold" href="/rooms">Rooms for rent</a></li>
-<li><a class="hover:text-black text-red-900 visited:text-red-900 text-lg font-bold" href="/tenantdashboard">Rental's Dashboard</a></li>
-<li><a class="hover:text-black text-red-900 visited:text-red-900 text-lg font-bold" href="/ownerdashboard">Owner's Dashboard</a></li>
+<li hidden="<%=b%>"><a class="hover:text-black text-red-900 visited:text-red-900 text-lg font-bold" href="/rooms">Rooms for rent</a></li>
+<li hidden="<%=b%>"><a class="hover:text-black text-red-900 visited:text-red-900 text-lg font-bold" href="/tenantdashboard">Rental's Dashboard</a></li>
+<li hidden="<%=!b%>"><a class="hover:text-black text-red-900 visited:text-red-900 text-lg font-bold" href="/ownerdashboard">Owner's Dashboard</a></li>
 <li><a class="hover:text-black text-red-900 visited:text-red-900 text-lg font-bold" href="/about">About</a></li>
 </ul>
 </nav>
