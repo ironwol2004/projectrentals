@@ -36,11 +36,17 @@ app.get("/",(req,res)=>{
 app.get("/wantroomform",(req,res)=>{
     res.render("wantroomform");
 });
-app.get("/home",(req,res)=>{
-    res.render("home");
+app.get("/thome",(req,res)=>{
+    res.render("thome");
 });
-app.get("/about",(req,res)=>{
-    res.render("about");
+app.get("/lhome",(req,res)=>{
+    res.render("lhome");
+});
+app.get("/tabout",(req,res)=>{
+    res.render("tabout");
+});
+app.get("/labout",(req,res)=>{
+    res.render("labout");
 });
 app.get("/landownerdetails",(req,res)=>{
     res.render("landownerdetails");
@@ -63,29 +69,27 @@ app.get("/tenantdashboard",(req,res)=>{
 app.post("/",(req,res)=>{
     var tenant=req.body.user==="Tenant"?"1":"";
     if(tenant==="1"){
-        Tenant.find({email:req.body.email}).then((t)=>{
-            console.log(t);
-            if(t.length>0 && t[0].pass===req.body.pass){
-                res.redirect("/home",{tenant:tenant,user:t[0]});
-            }
-            else if(t.length>0){
-                res.redirect("/");
-            }
-            else{
-                const temp={
-                    email:req.body.email,
-                    pass:req.body.pass
-                };
-                res.redirect("/wantroomform",{tenant:tenant,user:temp});
-            }
+        Tenant.findOne({email:req.body.email}).then((t)=>{if(t && t.pass===req.body.pass){
+            res.render("home",{tenant:tenant,user:t});
         }
-)}
+        else if(t){
+            res.redirect("/");
+        }
+        else{
+            const temp={
+                email:req.body.email,
+                pass:req.body.pass
+            };
+            res.render("wantroomform",{user:temp});
+        }});
+        
+    }
     else{
-        Landowner.find({email:req.body.email}).then((l)=>{
-            if(l.length>0 && l[0].pass===req.body.pass){
-                res.redirect("/home",{tenant:tenant,user:l[0]});
+        Landowner.findOne({email:req.body.email}).then((l)=>{
+            if(l && l.pass===req.body.pass){
+                res.render("home",{tenant:tenant,user:l});
             }
-            else if(l.length>0){
+            else if(l){
                 res.redirect("/");
             }
             else{
@@ -93,11 +97,11 @@ app.post("/",(req,res)=>{
                     email:req.body.email,
                     pass:req.body.pass
                 };
-                res.redirect("/rentroomform",{tenant:tenant,user:temp});
+                res.render("rentroomform",{tenant:tenant,user:temp});
             }
-        
         });
-       }
+        
+    }
 });
 app.post("/wantroomform",(req,res)=>{
     const temp=new Tenant({
@@ -112,7 +116,7 @@ app.post("/wantroomform",(req,res)=>{
     gotroom:false
     });
     temp.save();
-    res.redirect("/home",{tenant:req.body.tenant,user:temp});
+    res.render("home",{tenant:req.body.tenant,user:temp});
 });
 app.post("/rentroomform",(req,res)=>{
     const temp=new Landowner({
@@ -125,7 +129,7 @@ app.post("/rentroomform",(req,res)=>{
     roomfull:false
     });
     temp.save();
-    res.redirect("/home",{tenant:req.body.tenant,user:temp});
+    res.render("home",{tenant:req.body.tenant,user:temp});
 });
 app.listen(3000,()=>{
     console.log("server started");

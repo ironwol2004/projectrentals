@@ -1,7 +1,17 @@
 
-<%-include("headerfooter/header")%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
 <h1>Please fill the following details:</h1>
-<form target="post" action="/rentroomform">
+<form method="post" action="/rentroomform">
     <input type="hidden" name="email" value="<%=user.email%>">
     <input type="hidden" name="pass" value="<%=user.pass%>">
     <input type="hidden" name="tenant" value="<%=tenant%>">
