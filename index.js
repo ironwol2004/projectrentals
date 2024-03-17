@@ -45,8 +45,8 @@ app.get("/",(req,res)=>{
     res.render("signin");
 });
 app.post("/",(req,res)=>{
-    var tenant=req.body.user==="Tenant"?"1":"";
-    if(tenant==="1"){
+    var tenant=req.body.user==="Tenant"?true:false;
+    if(tenant){
         Tenant.findOne({email:req.body.email}).then((t)=>{if(t && t.pass===req.body.pass){
             res.render("thome",{useremail:t.email});
         }
