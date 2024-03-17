@@ -1,4 +1,18 @@
 
 <%-include("headerfooter/theader")%>
-<h1>all empty rooms with tenants preferences shown here</h1>
+<h1>Land Owners whose rooms match to your requirements are:</h1>
+<%owners.forEach((x)=>{%>
+<div>
+    <h1>Name: <%=x.name%></h1>
+    <h1>Address: <%=x.address%></h1>
+    <h1>City: <%=x.city%></h1>
+    <h1>Rooms: <%=x.roomsavail%></h1>
+    <form action="/request" method="post">
+        <input type="hidden" name="owneremail" value="<%=x.email%>">        
+        <input type="hidden" name="useremail" value="<%=useremail%>">        
+        <button type="submit">Send Request</button>
+    </form>
+</div>
+<hr>
+<%})%>
 <%-include("headerfooter/footer")%>

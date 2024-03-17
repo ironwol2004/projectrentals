@@ -23,7 +23,7 @@ const tenantsSchema=new mongoose.Schema({
     contact:Number,
     city:String,
     state:String,
-    requestsent:[String],
+    sent:[],
     gotroom:Boolean
 });
 const landownersSchema=new mongoose.Schema({
@@ -34,7 +34,7 @@ const landownersSchema=new mongoose.Schema({
     pass:String,
     city:String,
     state:String,
-    requestrecieved:[String],
+    recieved:[],
     roomempty:Boolean
 });
 const Tenant= mongoose.model("Tenant",tenantsSchema);
@@ -90,7 +90,7 @@ app.post("/wantroomform",(req,res)=>{
     email:req.body.email,
     pass:req.body.pass,
     contact:req.body.contact,
-    requestsent:[],
+    sent:[],
     gotroom:false,
     city:req.body.city,
     state:req.body.city
@@ -105,7 +105,7 @@ app.post("/rentroomform",(req,res)=>{
     roomsavail:req.body.rooms,
     email:req.body.email,
     pass:req.body.pass,
-    requestrecieved:[],
+    recieved:[],
     city:req.body.city,
     state:req.body.state,
     roomfull:false
@@ -116,11 +116,11 @@ app.post("/rentroomform",(req,res)=>{
 app.get("/wantroomform",(req,res)=>{
     res.render("wantroomform");
 });
-app.get("/thome",(req,res)=>{
-    res.render("thome");
+app.post("/thome",(req,res)=>{
+    res.render("thome",{useremail:req.body.email});
 });
 app.get("/lhome",(req,res)=>{
-    res.render("lhome");
+    res.render("lhome",{useremail:req.body.email});
 });
 app.get("/tabout",(req,res)=>{
     res.render("tabout");
@@ -137,14 +137,80 @@ app.get("/ownerdashboard",(req,res)=>{
 app.get("/rentroomform",(req,res)=>{
     res.render("rentroomform");
 });
-app.get("/rooms",(req,res)=>{
-    res.render("rooms");
+app.post("/rooms",(req,res)=>{
+    const ue=req.body.email;
+    console.log(ue);
+    Tenant.findOne({email:ue}).then((t)=>{
+        Landowner.find({city:t.city,__v:0,roomsavail:{$gte:t.roomsreq}}).then((r)=>{
+            res.render("rooms",{owners:r,useremail:ue});
+        })
+    });
 });
 app.get("/tenantdetails",(req,res)=>{
     res.render("tenantdetails");
 });
-app.get("/tenantdashboard",(req,res)=>{
-    res.render("tenantsdashboard");
+app.post("/tenantdashboard",(req,res)=>{
+    const ue=req.body.email;
+    var ten;
+    Tenant.findOne({email:ue}).then((t)=>{
+        ten=t.sent;
+    });
+    var x=[];
+    var yo=[];
+    for(var i=0;i<ten.length;i++){
+        var t=0;
+        var e=ten[i];
+        for(var j=0;j<x.length;j++){
+            f=x[j];
+            if(f===e){
+                t=1;
+            }
+            if(t===0){
+                x.push(e);
+                Landowner.findOne({email:e},(o)=>{
+                    yo.push(o);
+                });
+            }
+        }
+    }
+    res.render("tenantsdashboard",{ownners:yo});
+});
+app.post("/request",(req,res)=>{
+    const ue=req.body.useremail;
+    const oe=req.body.owneremail;
+    var ten;
+    Tenant.findOne({email:ue}).then((t)=>{
+        var arr=t.sent.length>0?t.sent:[];
+        arr.push(oe);
+        Tenant.findOneAndUpdate({email:ue},{sent:arr});
+    });
+    Landowner.findOne({email:oe}).then((t)=>{
+        var arr=t.recieved.length>0?t.recieved:[];
+        arr.push(ue);
+        Landowner.findOneAndUpdate({email:oe},{recieved:arr});
+    });
+    // Tenant.findOne({email:ue}).then((t)=>{
+    //     ten=t.requestsent;
+    // });
+    // var x=[];
+    // var yo=[];
+    // for(var i=0;i<ten.length;i++){
+    //     var t=0;
+    //     var e=ten[i];
+    //     for(var j=0;j<x.length;j++){
+    //         f=x[j];
+    //         if(f===e){
+    //             t=1;
+    //         }
+    //         if(t===0){
+    //             x.push(e);
+    //             Landowner.findOne({email:e},(o)=>{
+    //                 yo.push(o);
+    //             });
+    //         }
+    //     }
+    // }
+    res.render("thome",{useremail:ue});
 });
 app.listen(3000,()=>{
     console.log("server started");
