@@ -10,20 +10,71 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-<h1>Please enter the following details:</h1>
-<form method="post" action="/wantroomform">
-<input type="hidden" name="email" value="<%=user.email%>">
-<input type="hidden" name="pass" value="<%=user.pass%>">
-<label>Name:</label>
-<input type="text" name="name" required>
-<label>Members:</label>
-<input type="number" name="members" required>
-<label>No. of rooms required</label>
-<input type="number" name="rooms" required>
-<label>Duration of days:</label>
-<input type="number" name="duration" required>
-<label>Contact no.:</label>
-<input type="tel" name="contact" required>
-<button type="submit">Submit</button>
-<button type="reset">Reset</button></form>
+<form action="/wantroomform" method="post">
+<div class="border-b border-gray-900/10 px-6 py-6">
+    <input type="hidden" name="email" value="<%=user.email%>">
+    <input type="hidden" name="pass" value="<%=user.pass%>">
+    <h2 class="text-base font-semibold leading-7 text-gray-900">Request Details</h2>
+    <p class="mt-1 text-sm leading-6 text-gray-600">Please enter the following details: </p>
+
+    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+      <div class="sm:col-span-3">
+        <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name:</label>
+        <div class="mt-2">
+          <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+        </div>
+      </div>
+
+      <div class="sm:col-span-3">
+        <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name:</label>
+        <div class="mt-2">
+          <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        </div>
+      </div>
+
+      <div class="sm:col-span-3">
+        <label for="members" class="block text-sm font-medium leading-6 text-gray-900">Number of Members:</label>
+        <div class="mt-2">
+            <input type="number" name="members" id="members" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+        </div>
+      </div>
+
+      <div class="sm:col-span-3">
+        <label for="rooms" class="block text-sm font-medium leading-6 text-gray-900">Number of Rooms required:</label>
+        <div class="mt-2">
+            <input type="number" name="rooms" id="rooms" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+        </div>
+      </div>
+      <div class="sm:col-span-3">
+        <label for="duration" class="block text-sm font-medium leading-6 text-gray-900">Duration(in days):</label>
+        <div class="mt-2">
+            <input type="number" name="members" id="members" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+        </div>
+      </div>
+      <div class="sm:col-span-3">
+        <label for="telephone" class="block text-sm font-medium leading-6 text-gray-900">Contact Number: </label>
+        <div class="mt-2">
+            <input type="tel" name="contact" id="contact" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" required>
+        </div>
+      </div>
+      <div class="sm:col-span-3">
+        <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City you are looking in:</label>
+        <div class="mt-2">
+          <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        </div>
+      </div>
+
+      <div class="sm:col-span-3">
+        <label for="region" class="block text-sm font-medium leading-6 text-gray-900">State:</label>
+        <div class="mt-2">
+          <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        </div>
+      </div>
+      <div class="mt-6 flex items-center justify-center gap-x-6">
+        <button type="reset" class="text-sm font-semibold leading-6 text-red-600">Reset</button>
+        <button type="submit" class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Submit</button>
+      </div>
+    </div>
+  </div>
+</form>
 <%-include("headerfooter/footer")%>
